@@ -8,12 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		C6BB215428B82587007E7905 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB215328B82587007E7905 /* AppDelegate.swift */; };
-		C6BB215628B82587007E7905 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB215528B82587007E7905 /* ViewController.swift */; };
+		C6BB215628B82587007E7905 /* FavoritesPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB215528B82587007E7905 /* FavoritesPickerViewController.swift */; };
 		C6BB215828B82588007E7905 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6BB215728B82588007E7905 /* Assets.xcassets */; };
 		C6BB215B28B82588007E7905 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6BB215928B82588007E7905 /* Main.storyboard */; };
 		C6BB216628B82588007E7905 /* FavoritesDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB216528B82588007E7905 /* FavoritesDemoTests.swift */; };
 		C6BB217028B82588007E7905 /* FavoritesDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB216F28B82588007E7905 /* FavoritesDemoUITests.swift */; };
 		C6BB217228B82588007E7905 /* FavoritesDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB217128B82588007E7905 /* FavoritesDemoUITestsLaunchTests.swift */; };
+		C6BB217F28B8283A007E7905 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB217E28B8283A007E7905 /* Store.swift */; };
+		C6BB218228B83226007E7905 /* Marshal in Frameworks */ = {isa = PBXBuildFile; productRef = C6BB218128B83226007E7905 /* Marshal */; };
+		C6BB218A28B8454F007E7905 /* ITMSItemCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6BB218928B8454F007E7905 /* ITMSItemCollectionViewItem.xib */; };
+		C6BB218C28B84FF0007E7905 /* ItemCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB218B28B84FF0007E7905 /* ItemCollectionController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +40,7 @@
 /* Begin PBXFileReference section */
 		C6BB215028B82587007E7905 /* FavoritesDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FavoritesDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6BB215328B82587007E7905 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C6BB215528B82587007E7905 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C6BB215528B82587007E7905 /* FavoritesPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPickerViewController.swift; sourceTree = "<group>"; };
 		C6BB215728B82588007E7905 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6BB215A28B82588007E7905 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C6BB215C28B82588007E7905 /* FavoritesDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FavoritesDemo.entitlements; sourceTree = "<group>"; };
@@ -45,6 +49,9 @@
 		C6BB216B28B82588007E7905 /* FavoritesDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FavoritesDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6BB216F28B82588007E7905 /* FavoritesDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesDemoUITests.swift; sourceTree = "<group>"; };
 		C6BB217128B82588007E7905 /* FavoritesDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C6BB217E28B8283A007E7905 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		C6BB218928B8454F007E7905 /* ITMSItemCollectionViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ITMSItemCollectionViewItem.xib; sourceTree = "<group>"; };
+		C6BB218B28B84FF0007E7905 /* ItemCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollectionController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6BB218228B83226007E7905 /* Marshal in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,7 +104,10 @@
 			isa = PBXGroup;
 			children = (
 				C6BB215328B82587007E7905 /* AppDelegate.swift */,
-				C6BB215528B82587007E7905 /* ViewController.swift */,
+				C6BB215528B82587007E7905 /* FavoritesPickerViewController.swift */,
+				C6BB218B28B84FF0007E7905 /* ItemCollectionController.swift */,
+				C6BB218928B8454F007E7905 /* ITMSItemCollectionViewItem.xib */,
+				C6BB217E28B8283A007E7905 /* Store.swift */,
 				C6BB215728B82588007E7905 /* Assets.xcassets */,
 				C6BB215928B82588007E7905 /* Main.storyboard */,
 				C6BB215C28B82588007E7905 /* FavoritesDemo.entitlements */,
@@ -137,6 +148,9 @@
 			dependencies = (
 			);
 			name = FavoritesDemo;
+			packageProductDependencies = (
+				C6BB218128B83226007E7905 /* Marshal */,
+			);
 			productName = FavoritesDemo;
 			productReference = C6BB215028B82587007E7905 /* FavoritesDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -209,6 +223,9 @@
 				Base,
 			);
 			mainGroup = C6BB214728B82587007E7905;
+			packageReferences = (
+				C6BB218028B83226007E7905 /* XCRemoteSwiftPackageReference "Marshal" */,
+			);
 			productRefGroup = C6BB215128B82587007E7905 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -226,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6BB215828B82588007E7905 /* Assets.xcassets in Resources */,
+				C6BB218A28B8454F007E7905 /* ITMSItemCollectionViewItem.xib in Resources */,
 				C6BB215B28B82588007E7905 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -251,7 +269,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6BB215628B82587007E7905 /* ViewController.swift in Sources */,
+				C6BB218C28B84FF0007E7905 /* ItemCollectionController.swift in Sources */,
+				C6BB217F28B8283A007E7905 /* Store.swift in Sources */,
+				C6BB215628B82587007E7905 /* FavoritesPickerViewController.swift in Sources */,
 				C6BB215428B82587007E7905 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -579,6 +599,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C6BB218028B83226007E7905 /* XCRemoteSwiftPackageReference "Marshal" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/utahiosmac/Marshal";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C6BB218128B83226007E7905 /* Marshal */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C6BB218028B83226007E7905 /* XCRemoteSwiftPackageReference "Marshal" */;
+			productName = Marshal;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C6BB214828B82587007E7905 /* Project object */;
 }

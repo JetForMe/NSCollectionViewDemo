@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21219" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21219"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ITMSItemCollectionViewItem" customModule="FavoritesDemo" customModuleProvider="target">
+            <connections>
+                <outlet property="posterView" destination="uco-2G-euS" id="GO3-nw-o9i"/>
+                <outlet property="titleLabel" destination="z7h-u3-rbv" id="puh-AY-7Kz"/>
+                <outlet property="view" destination="k7S-SJ-Wo8" id="2y6-CM-2OU"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <view wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k7S-SJ-Wo8">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uco-2G-euS">
+                    <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="gmO-o9-jGl"/>
+                </imageView>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="z7h-u3-rbv">
+                    <rect key="frame" x="8" y="10" width="184" height="16"/>
+                    <textFieldCell key="cell" truncatesLastVisibleLine="YES" selectable="YES" title="Multiline Label" id="CS7-Fh-Qc3">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="z7h-u3-rbv" secondAttribute="bottom" constant="10" id="F1N-MG-zaF"/>
+                <constraint firstItem="uco-2G-euS" firstAttribute="leading" secondItem="k7S-SJ-Wo8" secondAttribute="leading" id="FHB-SO-cop"/>
+                <constraint firstAttribute="trailing" secondItem="uco-2G-euS" secondAttribute="trailing" id="OTw-Ca-wci"/>
+                <constraint firstAttribute="bottom" secondItem="uco-2G-euS" secondAttribute="bottom" id="Z3e-bx-Nna"/>
+                <constraint firstItem="z7h-u3-rbv" firstAttribute="leading" secondItem="k7S-SJ-Wo8" secondAttribute="leading" constant="10" id="drd-U5-GSb"/>
+                <constraint firstItem="uco-2G-euS" firstAttribute="top" secondItem="k7S-SJ-Wo8" secondAttribute="top" id="lYT-Da-5vM"/>
+                <constraint firstAttribute="trailing" secondItem="z7h-u3-rbv" secondAttribute="trailing" constant="10" id="s8Z-fK-brm"/>
+            </constraints>
+            <point key="canvasLocation" x="-368" y="-549"/>
+        </view>
+    </objects>
+</document>

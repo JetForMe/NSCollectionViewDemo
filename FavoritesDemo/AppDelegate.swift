@@ -8,23 +8,31 @@
 import Cocoa
 
 @main
-class AppDelegate: NSObject, NSApplicationDelegate {
-
-	
-
-
-	func applicationDidFinishLaunching(_ aNotification: Notification) {
-		// Insert code here to initialize your application
+class
+AppDelegate: NSObject, NSApplicationDelegate
+{
+	func
+	applicationDidFinishLaunching(_ inNotification: Notification)
+	{
+		Task
+		{
+			do
+			{
+				try await Store.shared.fetchTop100()
+			}
+			
+			catch let e
+			{
+				print("Error fetching \(e)")
+			}
+		}
 	}
 
-	func applicationWillTerminate(_ aNotification: Notification) {
-		// Insert code here to tear down your application
-	}
-
-	func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
+	func
+	applicationSupportsSecureRestorableState(_ inApp: NSApplication)
+		-> Bool
+	{
 		return true
 	}
-
-
 }
 
