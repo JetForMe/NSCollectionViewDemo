@@ -18,6 +18,7 @@
 		C6BB218228B83226007E7905 /* Marshal in Frameworks */ = {isa = PBXBuildFile; productRef = C6BB218128B83226007E7905 /* Marshal */; };
 		C6BB218A28B8454F007E7905 /* ITMSItemCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6BB218928B8454F007E7905 /* ITMSItemCollectionViewItem.xib */; };
 		C6BB218C28B84FF0007E7905 /* ItemCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB218B28B84FF0007E7905 /* ItemCollectionController.swift */; };
+		C6BB218F28BAD2D2007E7905 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C6BB218E28BAD2D2007E7905 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6BB218F28BAD2D2007E7905 /* Kingfisher in Frameworks */,
 				C6BB218228B83226007E7905 /* Marshal in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -150,6 +152,7 @@
 			name = FavoritesDemo;
 			packageProductDependencies = (
 				C6BB218128B83226007E7905 /* Marshal */,
+				C6BB218E28BAD2D2007E7905 /* Kingfisher */,
 			);
 			productName = FavoritesDemo;
 			productReference = C6BB215028B82587007E7905 /* FavoritesDemo.app */;
@@ -225,6 +228,7 @@
 			mainGroup = C6BB214728B82587007E7905;
 			packageReferences = (
 				C6BB218028B83226007E7905 /* XCRemoteSwiftPackageReference "Marshal" */,
+				C6BB218D28BAD2D2007E7905 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = C6BB215128B82587007E7905 /* Products */;
 			projectDirPath = "";
@@ -609,6 +613,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		C6BB218D28BAD2D2007E7905 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -616,6 +628,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C6BB218028B83226007E7905 /* XCRemoteSwiftPackageReference "Marshal" */;
 			productName = Marshal;
+		};
+		C6BB218E28BAD2D2007E7905 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C6BB218D28BAD2D2007E7905 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

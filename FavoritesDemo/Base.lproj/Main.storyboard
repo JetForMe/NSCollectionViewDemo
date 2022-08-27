@@ -741,7 +741,7 @@
                                     <rect key="frame" x="1" y="1" width="448" height="118"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <collectionView id="hcz-2E-DuK">
+                                        <collectionView selectable="YES" allowsMultipleSelection="YES" id="hcz-2E-DuK">
                                             <rect key="frame" x="0.0" y="0.0" width="448" height="158"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" scrollDirection="horizontal" id="rlX-bu-Z1Q">
@@ -756,6 +756,9 @@
                                         </collectionView>
                                     </subviews>
                                 </clipView>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="51y-tb-C5J"/>
+                                </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="etg-ny-TmT">
                                     <rect key="frame" x="1" y="144" width="233" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
