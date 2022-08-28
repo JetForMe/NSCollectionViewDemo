@@ -750,7 +750,6 @@
                                             </collectionViewFlowLayout>
                                             <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <connections>
-                                                <outlet property="dataSource" destination="qgQ-T2-IYd" id="eDl-le-XnP"/>
                                                 <outlet property="delegate" destination="qgQ-T2-IYd" id="geU-e5-ZfN"/>
                                             </connections>
                                         </collectionView>

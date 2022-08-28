@@ -52,20 +52,40 @@ Store
 			throw MarshalError.typeMismatch(expected: MarshaledObject.self, actual: type(of: json))
 		}
 		let items: [ITMSItem] = try obj.value(for: "feed.entry")
-		print("Fetched \(items.count) items")
-//		items.forEach
-//		{ inItem in
-//			print("\(inItem.title)")
-//		}
 		self.allTitles.send(items)
 	}
 	
+	/**
+		Adds the specified items to the favorites, culling duplicates
+		and returning the items added.
+	*/
+	
+	func
+	add(favorites inItems: [ITMSItem])
+		-> [ITMSItem]
+	{
+		var subset = [ITMSItem]()
+		inItems.forEach
+		{ inItem in
+			if !self.favorites.contains(inItem)
+			{
+				subset.append(inItem)
+			}
+		}
+		
+		var faves = self.favorites
+		faves.append(contentsOf: subset)
+		self.favorites = faves
+		
+		return subset
+	}
 	
 	
 	var			allTitles				=	CurrentValueSubject<[ITMSItem], Never>([ITMSItem]())
 }
 
 
+//	MARK: - • ITMSItem -
 
 struct
 ITMSItem
@@ -73,10 +93,18 @@ ITMSItem
 	let			id					:	String
 	var			title				:	String
 	var			posterURL			:	URL?
-	var			thumb				:	NSImage?
 	var			summary				:	String
 }
 
+extension
+ITMSItem : Hashable
+{
+    func
+    hash(into ioHasher: inout Hasher)
+    {
+    	self.id.hash(into: &ioHasher)
+    }
+}
 
 extension
 ITMSItem : Unmarshaling
@@ -86,6 +114,11 @@ ITMSItem : Unmarshaling
 	{
 		self.id = try inObj.value(for: "id.attributes.im:id")
 		self.title = try inObj.value(for: "im:name.label")
+		
+		//	Being so cautious with the downloaded data is probably overkill
+		//	for this little example, but here we are, and dealing with
+		//	it everywhere…
+		
 		let thumbs: [[String:Any]] = try inObj.value(for: "im:image")
 		if let urlS: String = try thumbs.last?.value(for: "label"),
 			let url = URL(string: urlS)
@@ -104,6 +137,64 @@ ITMSItem : Unmarshaling
 	}
 	
 }
+
+//	MARK: - • Data Encoding/Decoding -
+
+/**
+	This is rather annoying to have to do, but I’m not sure there’s
+	a better way in Swift to drag & drop structs.
+*/
+
+extension
+ITMSItem
+{
+	func
+	encode()
+		-> Data
+	{
+		let archiver = NSKeyedArchiver(requiringSecureCoding: false)
+		archiver.encode(self.id, forKey: "id")
+		archiver.encode(self.title, forKey: "title")
+		archiver.encode(self.summary, forKey: "summary")
+		if let url = self.posterURL
+		{
+			archiver.encode(url.absoluteString, forKey: "posterURL")
+		}
+		return archiver.encodedData
+	}
+	
+	init(with inData: Data)
+		throws
+	{
+		let archiver = try NSKeyedUnarchiver(forReadingFrom: inData)
+		
+		//	These should never be anything but valid strings…
+		
+		self.id = archiver.decodeDecodable(String.self, forKey: "id")!
+		self.title = archiver.decodeDecodable(String.self, forKey: "title")!
+		self.summary = archiver.decodeDecodable(String.self, forKey: "summary")!
+		
+		if let url = archiver.decodeDecodable(String.self, forKey: "posterURL")
+		{
+			self.posterURL = URL(string: url)
+		}
+	}
+}
+
+//	MARK: - • Debugging -
+
+extension
+ITMSItem : CustomDebugStringConvertible
+{
+	var
+	debugDescription: String
+	{
+		return "\(self.id): “\(self.title)”, poster: \(self.posterURL?.absoluteString)"
+	}
+	
+}
+
+//	MARK: - • String Path Helpers -
 
 public
 extension
@@ -137,4 +228,11 @@ String
 			self = inComp
 		}
 	}
+}
+
+
+enum
+Errors : Error
+{
+	case decodeFailure
 }

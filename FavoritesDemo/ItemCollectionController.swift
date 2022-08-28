@@ -20,9 +20,26 @@ ItemCollectionController : NSViewController
 	{
 		super.viewDidLoad()
 		
+		//	Configure the collection view…
+		
 		self.collectionView.register(ITMSItemCollectionViewItem.self, forItemWithIdentifier: .ITMSItemIdentifier)
 		self.collectionView.setDraggingSourceOperationMask([.move], forLocal: true)
 		self.collectionView.setDraggingSourceOperationMask([.copy, .delete], forLocal: false)
+		
+		//	Configure the data source…
+		
+		self.dataSource = .init(collectionView: self.collectionView,
+								itemProvider:
+								{ (inView: NSCollectionView, inPath: IndexPath, inItem: ITMSItem) -> NSCollectionViewItem? in
+									let iv = inView.makeItem(withIdentifier: .ITMSItemIdentifier, for: inPath) as! ITMSItemCollectionViewItem
+									
+									let item = self.items[inPath.item]
+									iv.titleLabel.stringValue = item.title
+									iv.posterView.kf.indicatorType = .activity
+									iv.posterView.kf.setImage(with: item.posterURL)
+									
+									return iv
+								})
 	}
 	
 	func
@@ -36,8 +53,14 @@ ItemCollectionController : NSViewController
 
 					print("Got \(inItems.count) items")
 					self.items = inItems
-					self.view.layoutSubtreeIfNeeded()
-					self.collectionView.reloadData()
+					
+					var snapshot = NSDiffableDataSourceSnapshot<Int, ITMSItem>()
+					snapshot.appendSections([0])
+                    snapshot.appendItems(inItems)
+
+	                self.dataSource.apply(snapshot, animatingDifferences: false)
+					
+//					self.view.layoutSubtreeIfNeeded()		//	TODO: Will we be okay without this?
 				}
 	}
 	
@@ -86,40 +109,16 @@ ItemCollectionController : NSViewController
 		}
 	}
 	
-	private var	sub					:	AnyCancellable?
-	private	var	items											=	[ITMSItem]()
+	private var	sub							:	AnyCancellable?
+	private	var	items																				=	[ITMSItem]()
+	private	var	dataSource					:	NSCollectionViewDiffableDataSource<Int, ITMSItem>!
 	
-	private	var	dropHandler			:	DropHandler?
-	@IBOutlet weak var collectionView: NSCollectionView!
+	private	var	dropHandler					:	DropHandler?
+	
+	@IBOutlet weak var collectionView		:	NSCollectionView!
 }
 
-
-
-extension
-ItemCollectionController : NSCollectionViewDataSource
-{
-	func
-	collectionView(_ inView: NSCollectionView, numberOfItemsInSection inSection: Int)
-		-> Int
-	{
-		return self.items.count
-	}
-	
-	func
-	collectionView(_ inView: NSCollectionView, itemForRepresentedObjectAt inPath: IndexPath)
-		-> NSCollectionViewItem
-	{
-		let iv = inView.makeItem(withIdentifier: .ITMSItemIdentifier, for: inPath) as! ITMSItemCollectionViewItem
-		
-		let item = self.items[inPath.item]
-		iv.titleLabel.stringValue = item.title
-		iv.posterView.kf.indicatorType = .activity
-		iv.posterView.kf.setImage(with: item.posterURL)
-		
-		return iv
-	}
-	
-}
+//	MARK: - • Drag & Drop -
 
 extension
 ItemCollectionController : NSCollectionViewDelegate
@@ -130,13 +129,7 @@ ItemCollectionController : NSCollectionViewDelegate
 	{
 		let item = self.items[inPath.item]
 		
-		print("pasteboardWriterForItemAt")
-		
-		let pbi = NSPasteboardItem()
-		pbi.setString(item.id, forType: .ITMSItemPBType)
-		pbi.setPropertyList(inPath.item, forType: .ITMSSourceIndexPBType)
-		let v = pbi.pasteboardPropertyList(forType: .ITMSSourceIndexPBType)
-		print("V: \(String(describing: v))")
+		let pbi = ITMSItemProvider(item: item)
 		return pbi
 	}
 	
@@ -160,6 +153,9 @@ ItemCollectionController : NSCollectionViewDelegate
         if let draggingSource = inInfo.draggingSource as? NSCollectionView,
         	draggingSource != inView
 		{
+			var snapshot = self.dataSource.snapshot()
+			var items = [ITMSItem]()
+			
             // Drag source from your own collection view.
             // Move each dragged photo item to their new place.
 //            dropInternalPhotos(collectionView, inInfo: inInfo, indexPath: indexPath)
@@ -174,30 +170,21 @@ ItemCollectionController : NSCollectionViewDelegate
 					{
 						do
 						{
-							if let data = pbItem.data(forType: .ITMSItemPBType)//,
-//								let photoIndexPath = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(indexPathData) as? IndexPath
+							if let data = pbItem.data(forType: .ITMSItemPBType)
 							{
-								print("\(data)")
-//								if let photoItem = self.dataSource.itemIdentifier(for: photoIndexPath)
-//								{
-//									// Find out the proper indexPath drop point.
-//									let toIndexPath = self.dropLocation(indexPath: indexPath)
-//
-//									let dropItemLocation = snapshot.itemIdentifiers[toIndexPath.item]
-//									if toIndexPath.item == 0 {
-//										// Item is being dropped at the beginning.
-//										snapshot.moveItem(photoItem, beforeItem: dropItemLocation)
-//									} else {
-//										// Item is being dropped between items or at the very end.
-//										snapshot.moveItem(photoItem, afterItem: dropItemLocation)
-//									}
-//								}
+								let item = try ITMSItem(with: data)
+								print("\(item)")
+								items.append(item)
 							}
 						} catch {
 							Swift.debugPrint("failed to unarchive indexPath for dropped photo item.")
 						}
 					}
 				})
+			
+			items = Store.shared.add(favorites: items)	//	TODO: specify where
+			snapshot.appendItems(items)
+			self.dataSource.apply(snapshot, animatingDifferences: true)
 			self.dropHandler?()
 	        return true
         } else {
@@ -205,6 +192,8 @@ ItemCollectionController : NSCollectionViewDelegate
         }
     }
 }
+
+//	MARK: - • Layout -
 
 extension
 ItemCollectionController : NSCollectionViewDelegateFlowLayout
@@ -228,4 +217,32 @@ ItemCollectionController : NSCollectionViewDelegateFlowLayout
 		let width = height * 9.0 / 16.0
 		return NSSize(width: width, height: height)
 	}
+}
+
+//	MARK: - • Drag & Drop Provider -
+
+class
+ITMSItemProvider : NSObject, NSPasteboardWriting
+{
+	init(item inItem: ITMSItem)
+	{
+		self.item = inItem
+	}
+	
+	func
+	writableTypes(for inPB: NSPasteboard)
+		-> [NSPasteboard.PasteboardType]
+	{
+		return [.ITMSItemPBType]
+	}
+	
+	func
+	pasteboardPropertyList(forType inType: NSPasteboard.PasteboardType)
+		-> Any?
+	{
+		let data = self.item.encode()
+		return data
+	}
+	
+	let	item				:	ITMSItem
 }
