@@ -8,7 +8,7 @@
 import Cocoa
 import Combine
 
-
+import Kingfisher
 
 
 class
@@ -68,6 +68,9 @@ ItemCollectionController : NSViewController
 	/**
 		Starts loading additional items (e.g. movie posters) for
 		the currently-visible items in the collection view.
+		
+		TODO: Currently not used, as we rely on NSCollectionView to
+		only instantiate visible cells.
 	*/
 	
 	func
@@ -76,7 +79,10 @@ ItemCollectionController : NSViewController
 		let paths = self.collectionView.indexPathsForVisibleItems()
 		paths.forEach
 		{ inPath in
-			
+			let cvItem = self.collectionView.item(at: inPath) as! ITMSItemCollectionViewItem
+			let item = self.items[inPath.item]
+			cvItem.posterView.kf.indicatorType = .activity
+			cvItem.posterView.kf.setImage(with: item.posterURL)
 		}
 	}
 	
@@ -107,6 +113,9 @@ ItemCollectionController : NSCollectionViewDataSource
 		
 		let item = self.items[inPath.item]
 		iv.titleLabel.stringValue = item.title
+		iv.posterView.kf.indicatorType = .activity
+		iv.posterView.kf.setImage(with: item.posterURL)
+		
 		return iv
 	}
 	
@@ -235,6 +244,7 @@ ITMSItemCollectionViewItem : NSCollectionViewItem
 	{
 		self.titleLabel.maximumNumberOfLines = 2
 		self.view.layer?.backgroundColor = CGColor(red: 0.0, green: 1.0, blue: 0.5, alpha: 0.3)
+		self.titleLabel.cell?.backgroundStyle = .raised
 	}
 	
 	@IBOutlet weak var titleLabel: NSTextField!

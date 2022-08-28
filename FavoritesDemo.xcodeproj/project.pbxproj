@@ -19,6 +19,7 @@
 		C6BB218A28B8454F007E7905 /* ITMSItemCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6BB218928B8454F007E7905 /* ITMSItemCollectionViewItem.xib */; };
 		C6BB218C28B84FF0007E7905 /* ItemCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB218B28B84FF0007E7905 /* ItemCollectionController.swift */; };
 		C6BB218F28BAD2D2007E7905 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C6BB218E28BAD2D2007E7905 /* Kingfisher */; };
+		C6BB219128BAE16B007E7905 /* AspectFillImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB219028BAE16B007E7905 /* AspectFillImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		C6BB217E28B8283A007E7905 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		C6BB218928B8454F007E7905 /* ITMSItemCollectionViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ITMSItemCollectionViewItem.xib; sourceTree = "<group>"; };
 		C6BB218B28B84FF0007E7905 /* ItemCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollectionController.swift; sourceTree = "<group>"; };
+		C6BB219028BAE16B007E7905 /* AspectFillImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectFillImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				C6BB218B28B84FF0007E7905 /* ItemCollectionController.swift */,
 				C6BB218928B8454F007E7905 /* ITMSItemCollectionViewItem.xib */,
 				C6BB217E28B8283A007E7905 /* Store.swift */,
+				C6BB219028BAE16B007E7905 /* AspectFillImageView.swift */,
 				C6BB215728B82588007E7905 /* Assets.xcassets */,
 				C6BB215928B82588007E7905 /* Main.storyboard */,
 				C6BB215C28B82588007E7905 /* FavoritesDemo.entitlements */,
@@ -274,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6BB218C28B84FF0007E7905 /* ItemCollectionController.swift in Sources */,
+				C6BB219128BAE16B007E7905 /* AspectFillImageView.swift in Sources */,
 				C6BB217F28B8283A007E7905 /* Store.swift in Sources */,
 				C6BB215628B82587007E7905 /* FavoritesPickerViewController.swift in Sources */,
 				C6BB215428B82587007E7905 /* AppDelegate.swift in Sources */,
@@ -374,7 +378,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.5;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -428,7 +432,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.5;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;

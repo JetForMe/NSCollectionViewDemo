@@ -72,7 +72,7 @@ ITMSItem
 {
 	let			id					:	String
 	var			title				:	String
-	var			thumbURL			:	URL?
+	var			posterURL			:	URL?
 	var			thumb				:	NSImage?
 	var			summary				:	String
 }
@@ -90,9 +90,51 @@ ITMSItem : Unmarshaling
 		if let urlS: String = try thumbs.last?.value(for: "label"),
 			let url = URL(string: urlS)
 		{
-			self.thumbURL = url
+			//	Massage the URL to give us a higher-res version than
+			//	the one explicitly given…
+			
+			var comps = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+			var path = comps.path
+			path.set(lastPathComponent: "460x0w.png")
+			comps.path = path
+			
+			self.posterURL = comps.url
 		}
 		self.summary = try inObj.value(for: "summary.label")
 	}
 	
+}
+
+public
+extension
+String
+{
+	func
+	lastPathComponent(separator inSep: String = "/")
+		-> String?
+	{
+		let comps = self.components(separatedBy: inSep)
+		if let last = comps.last
+		{
+			return String(last)
+		}
+		
+		return nil
+	}
+	
+	mutating
+	func
+	set(lastPathComponent inComp: String, separator inSep: String = "/")
+	{
+		var comps = self.components(separatedBy: inSep)
+		if comps.count > 0
+		{
+			comps[comps.count - 1] = inComp
+			self = comps.joined(separator: inSep)
+		}
+		else
+		{
+			self = inComp
+		}
+	}
 }

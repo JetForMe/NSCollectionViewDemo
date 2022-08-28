@@ -18,15 +18,15 @@
         <view wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k7S-SJ-Wo8">
             <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
             <subviews>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uco-2G-euS">
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uco-2G-euS" customClass="AspectFillImageView" customModule="FavoritesDemo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="gmO-o9-jGl"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="gmO-o9-jGl"/>
                 </imageView>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="z7h-u3-rbv">
-                    <rect key="frame" x="8" y="10" width="184" height="16"/>
-                    <textFieldCell key="cell" truncatesLastVisibleLine="YES" selectable="YES" title="Multiline Label" id="CS7-Fh-Qc3">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                    <rect key="frame" x="8" y="10" width="184" height="22"/>
+                    <textFieldCell key="cell" truncatesLastVisibleLine="YES" title="Multiline Label" id="CS7-Fh-Qc3">
+                        <font key="font" size="18" name="GillSans-SemiBold"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
