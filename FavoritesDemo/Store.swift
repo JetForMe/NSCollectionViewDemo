@@ -85,7 +85,7 @@ ITMSItem : Unmarshaling
 		throws
 	{
 		self.id = try inObj.value(for: "id.attributes.im:id")
-		self.title = try inObj.value(for: "title.label")
+		self.title = try inObj.value(for: "im:name.label")
 		let thumbs: [[String:Any]] = try inObj.value(for: "im:image")
 		if let urlS: String = try thumbs.last?.value(for: "label"),
 			let url = URL(string: urlS)

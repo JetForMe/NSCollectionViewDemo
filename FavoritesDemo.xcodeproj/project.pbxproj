@@ -20,6 +20,7 @@
 		C6BB218C28B84FF0007E7905 /* ItemCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB218B28B84FF0007E7905 /* ItemCollectionController.swift */; };
 		C6BB218F28BAD2D2007E7905 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C6BB218E28BAD2D2007E7905 /* Kingfisher */; };
 		C6BB219128BAE16B007E7905 /* AspectFillImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB219028BAE16B007E7905 /* AspectFillImageView.swift */; };
+		C6BB219328BAEC3F007E7905 /* ITMSItemCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB219228BAEC3F007E7905 /* ITMSItemCollectionViewItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		C6BB218928B8454F007E7905 /* ITMSItemCollectionViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ITMSItemCollectionViewItem.xib; sourceTree = "<group>"; };
 		C6BB218B28B84FF0007E7905 /* ItemCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollectionController.swift; sourceTree = "<group>"; };
 		C6BB219028BAE16B007E7905 /* AspectFillImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectFillImageView.swift; sourceTree = "<group>"; };
+		C6BB219228BAEC3F007E7905 /* ITMSItemCollectionViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMSItemCollectionViewItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				C6BB215328B82587007E7905 /* AppDelegate.swift */,
 				C6BB215528B82587007E7905 /* FavoritesPickerViewController.swift */,
 				C6BB218B28B84FF0007E7905 /* ItemCollectionController.swift */,
+				C6BB219228BAEC3F007E7905 /* ITMSItemCollectionViewItem.swift */,
 				C6BB218928B8454F007E7905 /* ITMSItemCollectionViewItem.xib */,
 				C6BB217E28B8283A007E7905 /* Store.swift */,
 				C6BB219028BAE16B007E7905 /* AspectFillImageView.swift */,
@@ -278,6 +281,7 @@
 			files = (
 				C6BB218C28B84FF0007E7905 /* ItemCollectionController.swift in Sources */,
 				C6BB219128BAE16B007E7905 /* AspectFillImageView.swift in Sources */,
+				C6BB219328BAEC3F007E7905 /* ITMSItemCollectionViewItem.swift in Sources */,
 				C6BB217F28B8283A007E7905 /* Store.swift in Sources */,
 				C6BB215628B82587007E7905 /* FavoritesPickerViewController.swift in Sources */,
 				C6BB215428B82587007E7905 /* AppDelegate.swift in Sources */,
