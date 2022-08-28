@@ -64,17 +64,21 @@ Store
 	add(favorites inItems: [ITMSItem])
 		-> [ITMSItem]
 	{
-		var subset = [ITMSItem]()
-		inItems.forEach
-		{ inItem in
-			if !self.favorites.contains(inItem)
-			{
-				subset.append(inItem)
-			}
+		var subset = inItems.filter { !self.favorites.contains($0) }
+		
+		//	Remove from available…
+		
+		var available = self.availableTitles
+		subset.forEach
+		{ inFave in
+			available.removeAll { $0.id == inFave.id }
 		}
+		self.availableTitles = available
+		
+		//	Update our favorites…
 		
 		var faves = self.favorites
-		faves.append(contentsOf: subset)
+		faves.append(contentsOf: subset)		//	TODO: at a specific location
 		self.favorites = faves
 		
 		return subset

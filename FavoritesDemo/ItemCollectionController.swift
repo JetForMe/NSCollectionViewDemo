@@ -14,6 +14,37 @@ import Kingfisher
 class
 ItemCollectionController : NSViewController
 {
+	func
+	set(collection inCollection: any Publisher<[ITMSItem], Never>)
+	{
+		self.sub =
+			inCollection
+				.sink
+				{ [weak self] inItems in
+					guard let self = self else { return }
+
+					print("Got \(inItems.count) items")
+					self.items = inItems
+					
+					var snapshot = NSDiffableDataSourceSnapshot<Int, ITMSItem>()
+					snapshot.appendSections([0])
+                    snapshot.appendItems(inItems)
+
+	                self.dataSource.apply(snapshot, animatingDifferences: true)
+					
+//					self.view.layoutSubtreeIfNeeded()		//	TODO: Will we be okay without this?
+				}
+	}
+	
+	typealias	DropHandler			=	() -> ()
+	
+	func
+	setDropHandler(_ inDH: @escaping DropHandler)
+	{
+		self.dropHandler = inDH
+		self.collectionView.registerForDraggedTypes([.ITMSItemPBType])
+	}
+	
 	override
 	func
 	viewDidLoad()
@@ -33,44 +64,12 @@ ItemCollectionController : NSViewController
 								{ (inView: NSCollectionView, inPath: IndexPath, inItem: ITMSItem) -> NSCollectionViewItem? in
 									let iv = inView.makeItem(withIdentifier: .ITMSItemIdentifier, for: inPath) as! ITMSItemCollectionViewItem
 									
-									let item = self.items[inPath.item]
-									iv.titleLabel.stringValue = item.title
+									iv.titleLabel.stringValue = inItem.title
 									iv.posterView.kf.indicatorType = .activity
-									iv.posterView.kf.setImage(with: item.posterURL)
+									iv.posterView.kf.setImage(with: inItem.posterURL)
 									
 									return iv
 								})
-	}
-	
-	func
-	set(collection inCollection: any Publisher<[ITMSItem], Never>)
-	{
-		self.sub =
-			inCollection
-				.sink
-				{ [weak self] inItems in
-					guard let self = self else { return }
-
-					print("Got \(inItems.count) items")
-					self.items = inItems
-					
-					var snapshot = NSDiffableDataSourceSnapshot<Int, ITMSItem>()
-					snapshot.appendSections([0])
-                    snapshot.appendItems(inItems)
-
-	                self.dataSource.apply(snapshot, animatingDifferences: false)
-					
-//					self.view.layoutSubtreeIfNeeded()		//	TODO: Will we be okay without this?
-				}
-	}
-	
-	typealias	DropHandler			=	() -> ()
-	
-	func
-	setDropHandler(_ inDH: @escaping DropHandler)
-	{
-		self.dropHandler = inDH
-		self.collectionView.registerForDraggedTypes([.ITMSItemPBType])
 	}
 	
 	/**
