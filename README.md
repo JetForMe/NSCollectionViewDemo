@@ -6,6 +6,10 @@ a reorderable favorites collection.
 * At the moment, there is no way to delete a favorite. Two obvious methods would be to select and press
 	Delete (or Command-Delete), and to simply drag out fo the collection view; it’s not clear
 	to me how to implement the latter.
+* The current layout presents challenges to scrolling, as horizontal scrolling on macOS is more
+	cumbersome than vertical scrolling. I have a UX change in mind to rearrange this. The dynamic
+	resizing of the thumbnails has a few polish issues, and so I’ll probably make them fixed
+	size.
 * It’s unclear why, but the drop location highlighting isn’t working properly.
 * The use of Combine, coupled with Apple’s rather clumsy design of `NSCollectionViewDiffableDataSource`,
 	results in a redundant update to the data source. This update ends up being a no-op, so I’ve

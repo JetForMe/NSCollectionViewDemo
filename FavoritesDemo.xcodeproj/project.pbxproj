@@ -59,6 +59,7 @@
 		C6BB218B28B84FF0007E7905 /* ItemCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollectionController.swift; sourceTree = "<group>"; };
 		C6BB219028BAE16B007E7905 /* AspectFillImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectFillImageView.swift; sourceTree = "<group>"; };
 		C6BB219228BAEC3F007E7905 /* ITMSItemCollectionViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMSItemCollectionViewItem.swift; sourceTree = "<group>"; };
+		C6BB219A28BCD72F007E7905 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +94,7 @@
 		C6BB214728B82587007E7905 = {
 			isa = PBXGroup;
 			children = (
+				C6BB219A28BCD72F007E7905 /* README.md */,
 				C6BB215228B82587007E7905 /* FavoritesDemo */,
 				C6BB216428B82588007E7905 /* FavoritesDemoTests */,
 				C6BB216E28B82588007E7905 /* FavoritesDemoUITests */,
