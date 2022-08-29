@@ -20,10 +20,14 @@ FavoritesPickerViewController : NSSplitViewController
 		
 		let available = self.splitViewItems[0].viewController as! ItemCollectionController
 		available.set(collection: Store.shared.$availableTitles)
+		
 		let favorites = self.splitViewItems[1].viewController as! ItemCollectionController
-		favorites.set(collection: Store.shared.$favorites)
-		favorites.setDropHandler {
-			print("handle the drop")
+		favorites.canDrop = true
+		favorites.canReorder = true
+		favorites.loadItems(from: Store.shared.favorites)
+		favorites.setDropHandler
+		{ inItems in
+			Store.shared.set(favorites: inItems)
 		}
 	}
 	

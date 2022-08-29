@@ -9,34 +9,43 @@ import Cocoa
 import Combine
 
 import Kingfisher
+import OrderedCollections
 
 
 class
 ItemCollectionController : NSViewController
 {
+	public	var		canDrop							=	false
+	public	var		canReorder						=	false
+	
 	func
-	set(collection inCollection: any Publisher<[ITMSItem], Never>)
+	loadItems(from inItems: OrderedSet<ITMSItem>)
+	{
+		var snapshot = NSDiffableDataSourceSnapshot<Int, ITMSItem>()
+		snapshot.appendSections([0])
+		snapshot.appendItems(inItems.elements)
+
+		self.dataSource.apply(snapshot, animatingDifferences: true)
+	}
+	
+	func
+	set(collection inCollection: any Publisher<OrderedSet<ITMSItem>, Never>)
 	{
 		self.sub =
 			inCollection
 				.sink
 				{ [weak self] inItems in
 					guard let self = self else { return }
-
-					print("Got \(inItems.count) items")
-					self.items = inItems
 					
 					var snapshot = NSDiffableDataSourceSnapshot<Int, ITMSItem>()
 					snapshot.appendSections([0])
-                    snapshot.appendItems(inItems)
+					snapshot.appendItems(inItems.elements)
 
-	                self.dataSource.apply(snapshot, animatingDifferences: true)
-					
-//					self.view.layoutSubtreeIfNeeded()		//	TODO: Will we be okay without this?
+					self.dataSource.apply(snapshot, animatingDifferences: true)
 				}
 	}
 	
-	typealias	DropHandler			=	() -> ()
+	typealias	DropHandler			=	(_ items: OrderedSet<ITMSItem>) -> ()
 	
 	func
 	setDropHandler(_ inDH: @escaping DropHandler)
@@ -70,6 +79,11 @@ ItemCollectionController : NSViewController
 									
 									return iv
 								})
+		self.dataSource.supplementaryViewProvider =
+		{ (inView: NSCollectionView, inKind: String, inPath: IndexPath) -> (NSView & NSCollectionViewElement)? in
+			debugLog("supplementaryViewProvider \(inKind)")
+			return nil
+		}
 	}
 	
 	/**
@@ -87,32 +101,10 @@ ItemCollectionController : NSViewController
 		self.collectionView.collectionViewLayout?.invalidateLayout()
 	}
 	
-	/**
-		Starts loading additional items (e.g. movie posters) for
-		the currently-visible items in the collection view.
-		
-		TODO: Currently not used, as we rely on NSCollectionView to
-		only instantiate visible cells.
-	*/
+	private var sub							:	AnyCancellable?
+	private var dataSource					:	NSCollectionViewDiffableDataSource<Int, ITMSItem>!
 	
-	func
-	loadVisibleItems()
-	{
-		let paths = self.collectionView.indexPathsForVisibleItems()
-		paths.forEach
-		{ inPath in
-			let cvItem = self.collectionView.item(at: inPath) as! ITMSItemCollectionViewItem
-			let item = self.items[inPath.item]
-			cvItem.posterView.kf.indicatorType = .activity
-			cvItem.posterView.kf.setImage(with: item.posterURL)
-		}
-	}
-	
-	private var	sub							:	AnyCancellable?
-	private	var	items																				=	[ITMSItem]()
-	private	var	dataSource					:	NSCollectionViewDiffableDataSource<Int, ITMSItem>!
-	
-	private	var	dropHandler					:	DropHandler?
+	private var dropHandler					:	DropHandler?
 	
 	@IBOutlet weak var collectionView		:	NSCollectionView!
 }
@@ -126,70 +118,154 @@ ItemCollectionController : NSCollectionViewDelegate
 	collectionView(_ inView: NSCollectionView, pasteboardWriterForItemAt inPath: IndexPath)
 		-> NSPasteboardWriting?
 	{
-		let item = self.items[inPath.item]
+		guard
+			let item = self.dataSource.itemIdentifier(for: inPath)
+		else
+		{
+			return nil
+		}
 		
 		let pbi = ITMSItemProvider(item: item)
 		return pbi
 	}
 	
-    func collectionView(_ collectionView: NSCollectionView,
-                        validateDrop draggingInfo: NSDraggingInfo,
-                        proposedIndexPath proposedDropIndexPath: AutoreleasingUnsafeMutablePointer<NSIndexPath>,
-                        dropOperation inProposedOp: UnsafeMutablePointer<NSCollectionView.DropOperation>) -> NSDragOperation
+	func
+	collectionView(_ inView: NSCollectionView,
+					validateDrop inInfo: NSDraggingInfo,
+					proposedIndexPath inProposedPath: AutoreleasingUnsafeMutablePointer<NSIndexPath>,
+					dropOperation inProposedOp: UnsafeMutablePointer<NSCollectionView.DropOperation>)
+		-> NSDragOperation
 	{
-		print("validateDrop, proposed op: \(inProposedOp.pointee.rawValue)")
-		return NSDragOperation.copy
+		guard
+			let draggingSource = inInfo.draggingSource as? NSCollectionView,
+			(draggingSource != inView && self.canDrop) || (draggingSource == inView && self.canReorder)
+		else
+		{
+			return []
+		}
+		
+		if inProposedOp.pointee == .on
+		{
+			inProposedOp.pointee = .before
+		}
+		
+		return .move
 	}
 
-    func
-    collectionView(_ inView: NSCollectionView,
-                        acceptDrop inInfo: NSDraggingInfo,
-                        indexPath inPath: IndexPath,
-                        dropOperation inOp: NSCollectionView.DropOperation) -> Bool
+	func
+	collectionView(_ inView: NSCollectionView,
+					acceptDrop inInfo: NSDraggingInfo,
+					indexPath inPath: IndexPath,
+					dropOperation inOp: NSCollectionView.DropOperation)
+		-> Bool
 	{
-		print("handle drop: \(inOp) at \(inPath)")
-        // Check where the dragged items are coming from.
-        if let draggingSource = inInfo.draggingSource as? NSCollectionView,
-        	draggingSource != inView
+		guard
+			let draggingSource = inInfo.draggingSource as? NSCollectionView
+		else
 		{
-			var snapshot = self.dataSource.snapshot()
-			var items = [ITMSItem]()
-			
-            // Drag source from your own collection view.
-            // Move each dragged photo item to their new place.
-//            dropInternalPhotos(collectionView, inInfo: inInfo, indexPath: indexPath)
-			inInfo.enumerateDraggingItems(
-				options: NSDraggingItemEnumerationOptions.concurrent,
-				for: inView,
-				classes: [NSPasteboardItem.self],
-				searchOptions: [:],
-				using:
-				{ (inItem, inIdx, outStop) in
-					if let pbItem = inItem.item as? NSPasteboardItem
+			return false
+		}
+		
+		//	Build a list of dragged items…
+		
+		var items = OrderedSet<ITMSItem>()
+		inInfo.enumerateDraggingItems(
+			options: NSDraggingItemEnumerationOptions.concurrent,
+			for: inView,
+			classes: [NSPasteboardItem.self],
+			searchOptions: [:],
+			using:
+			{ (inItem, inIdx, outStop) in
+				if let pbItem = inItem.item as? NSPasteboardItem
+				{
+					do
 					{
-						do
+						if let data = pbItem.data(forType: .ITMSItemPBType)
 						{
-							if let data = pbItem.data(forType: .ITMSItemPBType)
-							{
-								let item = try ITMSItem(with: data)
-								print("\(item)")
-								items.append(item)
-							}
-						} catch {
-							Swift.debugPrint("failed to unarchive indexPath for dropped photo item.")
+							let item = try ITMSItem(with: data)
+							debugLog("\(item)")
+							items.append(item)
 						}
 					}
-				})
+					catch
+					{
+						debugLog("failed to unarchive indexPath for dropped photo item.")
+					}
+				}
+			})
+		
+		//	If it came from our own view, see if we can reorder, and do so…
+		
+		let toPath = self.dropLocation(from: inPath)
+		var snapshot = self.dataSource.snapshot()
+		
+		if draggingSource == inView
+		{
+			guard self.canReorder else { return false }
 			
-			items = Store.shared.add(favorites: items)	//	TODO: specify where
-			snapshot.appendItems(items)
-			self.dataSource.apply(snapshot, animatingDifferences: true)
-			self.dropHandler?()
-	        return true
-        } else {
-            return false
-        }
-    }
+			//	Move to the appropriate place…
+			
+			let dropItem = snapshot.itemIdentifiers[toPath.item]
+			if toPath.item == 0												//	Items dropped at beginning
+			{
+				items.forEach { snapshot.moveItem($0, beforeItem: dropItem) }
+			}
+			else															//	Items dropped between or at end
+			{
+				items.forEach { snapshot.moveItem($0, afterItem: dropItem) }
+			}
+		}
+		else
+		{
+			//	The diffable data source is a bit clunky thanks to not using simple indices
+			//	into the collection, so we have to jump through some hoops to figure out
+			//	exactly where to drop the items…
+			
+			if snapshot.numberOfItems(inSection: 0) == 0
+			{
+				//	We’re empty, so just append…
+				
+				snapshot.appendItems(items.elements)
+			}
+			else
+			{
+				//	Insert at the appropriate place…
+				
+				let dropItem = snapshot.itemIdentifiers[toPath.item]
+				if toPath.item == 0												//	Items dropped at beginning
+				{
+					snapshot.insertItems(items.elements, beforeItem: dropItem)
+				}
+				else															//	Items dropped between or at end
+				{
+					snapshot.insertItems(items.elements, afterItem: dropItem)
+				}
+			}
+		}
+		
+		self.dataSource.apply(snapshot, animatingDifferences: true)
+		
+		//	Let the top level controller know what happened…
+		
+		self.dropHandler?(OrderedSet<ITMSItem>(self.dataSource.snapshot().itemIdentifiers))
+		
+		return true
+	}
+	
+	/**
+		The diffable data source is a bit clunky thanks to not using simple indices
+		into the collection, so we have to jump through some hoops to figure out
+		exactly where to drop the items.
+	*/
+	
+	func
+	dropLocation(from inPath: IndexPath)
+		-> IndexPath
+	{
+		return inPath.item == 0
+				? IndexPath(item: inPath.item, section: inPath.section)
+				: IndexPath(item: inPath.item - 1, section: inPath.section)
+	}
 }
 
 //	MARK: - • Layout -
@@ -243,5 +319,5 @@ ITMSItemProvider : NSObject, NSPasteboardWriting
 		return data
 	}
 	
-	let	item				:	ITMSItem
+	let item				:	ITMSItem
 }

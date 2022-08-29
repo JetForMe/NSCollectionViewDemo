@@ -10,6 +10,9 @@ import Combine
 import Foundation
 
 import Marshal
+import OrderedCollections
+
+
 
 
 /**
@@ -22,8 +25,8 @@ Store
 {
 		public	static	var			shared					=	Store()
 	
-	@Published	public	var			availableTitles			=	[ITMSItem]()
-	@Published	public	var			favorites				=	[ITMSItem]()
+	@Published	public	var			availableTitles			=	OrderedSet<ITMSItem>()
+	@Published	public	var			favorites				=	OrderedSet<ITMSItem>()
 	
 	
 	public
@@ -52,40 +55,28 @@ Store
 			throw MarshalError.typeMismatch(expected: MarshaledObject.self, actual: type(of: json))
 		}
 		let items: [ITMSItem] = try obj.value(for: "feed.entry")
-		self.allTitles.send(items)
+		self.allTitles.send(OrderedSet<ITMSItem>(items))
 	}
 	
 	/**
-		Adds the specified items to the favorites, culling duplicates
-		and returning the items added.
+		Updates the favorites with the new list.
 	*/
 	
 	func
-	add(favorites inItems: [ITMSItem])
-		-> [ITMSItem]
+	set(favorites inItems: OrderedSet<ITMSItem>)
 	{
-		var subset = inItems.filter { !self.favorites.contains($0) }
-		
 		//	Remove from available…
 		
-		var available = self.availableTitles
-		subset.forEach
-		{ inFave in
-			available.removeAll { $0.id == inFave.id }
-		}
+		let available = self.availableTitles.subtracting(inItems)
 		self.availableTitles = available
 		
 		//	Update our favorites…
 		
-		var faves = self.favorites
-		faves.append(contentsOf: subset)		//	TODO: at a specific location
-		self.favorites = faves
-		
-		return subset
+		self.favorites = inItems
 	}
 	
 	
-	var			allTitles				=	CurrentValueSubject<[ITMSItem], Never>([ITMSItem]())
+	var			allTitles				=	CurrentValueSubject<OrderedSet<ITMSItem>, Never>(OrderedSet<ITMSItem>())
 }
 
 

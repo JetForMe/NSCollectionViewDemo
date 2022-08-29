@@ -5,7 +5,11 @@
 //  Created by Rick Mann on 2022-08-25.
 //
 
+import os.log
+
 import Cocoa
+
+
 
 @main
 class
@@ -23,7 +27,7 @@ AppDelegate: NSObject, NSApplicationDelegate
 			
 			catch let e
 			{
-				print("Error fetching \(e)")
+				debugLog("Error fetching \(e)")
 			}
 		}
 	}
@@ -36,3 +40,15 @@ AppDelegate: NSObject, NSApplicationDelegate
 	}
 }
 
+
+
+public
+func
+debugLog(_ inFormat: String, file inFile : String = #file, line inLine : Int = #line, _ inArgs: CVarArg...)
+{
+	let s = String(format: inFormat, arguments: inArgs)
+	
+	let file = (inFile as NSString).lastPathComponent
+	let ss = "\(file):\(inLine)    \(s)"
+	os_log("%{public}@", ss)
+}

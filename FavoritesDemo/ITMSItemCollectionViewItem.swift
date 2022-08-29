@@ -18,9 +18,32 @@ ITMSItemCollectionViewItem : NSCollectionViewItem
 	func
 	viewDidLoad()
 	{
-		self.titleLabel.maximumNumberOfLines = 2
+		//	Set up a simple selection indication…
+		
+		self.view.wantsLayer = true
+		self.view.layer?.borderWidth = 0.0
+		self.view.layer?.borderColor = CGColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1.0)
+		
+		//	Give us some color until the poster loads…
+		
 		self.view.layer?.backgroundColor = CGColor(red: 0.0, green: 1.0, blue: 0.5, alpha: 0.3)
+		
+		//	Two lines of title…
+		
+		self.titleLabel.maximumNumberOfLines = 2
+		//	Attempt to set the title text shadow, but doesn't seem to do much…
+		
 		self.titleLabel.cell?.backgroundStyle = .raised
+	}
+	
+	override
+	var
+	isSelected: Bool
+	{
+		didSet
+		{
+			self.view.layer?.borderWidth = self.isSelected ? 10.0 : 0.0
+		}
 	}
 	
 	@IBOutlet weak var titleLabel: NSTextField!

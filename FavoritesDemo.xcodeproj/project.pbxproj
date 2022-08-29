@@ -21,6 +21,7 @@
 		C6BB218F28BAD2D2007E7905 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C6BB218E28BAD2D2007E7905 /* Kingfisher */; };
 		C6BB219128BAE16B007E7905 /* AspectFillImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB219028BAE16B007E7905 /* AspectFillImageView.swift */; };
 		C6BB219328BAEC3F007E7905 /* ITMSItemCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BB219228BAEC3F007E7905 /* ITMSItemCollectionViewItem.swift */; };
+		C6BB219628BCAB1C007E7905 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = C6BB219528BCAB1C007E7905 /* OrderedCollections */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 			files = (
 				C6BB218F28BAD2D2007E7905 /* Kingfisher in Frameworks */,
 				C6BB218228B83226007E7905 /* Marshal in Frameworks */,
+				C6BB219628BCAB1C007E7905 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +161,7 @@
 			packageProductDependencies = (
 				C6BB218128B83226007E7905 /* Marshal */,
 				C6BB218E28BAD2D2007E7905 /* Kingfisher */,
+				C6BB219528BCAB1C007E7905 /* OrderedCollections */,
 			);
 			productName = FavoritesDemo;
 			productReference = C6BB215028B82587007E7905 /* FavoritesDemo.app */;
@@ -235,6 +238,7 @@
 			packageReferences = (
 				C6BB218028B83226007E7905 /* XCRemoteSwiftPackageReference "Marshal" */,
 				C6BB218D28BAD2D2007E7905 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				C6BB219428BCAB1C007E7905 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = C6BB215128B82587007E7905 /* Products */;
 			projectDirPath = "";
@@ -629,6 +633,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		C6BB219428BCAB1C007E7905 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -641,6 +653,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C6BB218D28BAD2D2007E7905 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		C6BB219528BCAB1C007E7905 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C6BB219428BCAB1C007E7905 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
