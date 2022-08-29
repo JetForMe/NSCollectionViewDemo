@@ -42,12 +42,16 @@ Store
 			debugLog("Error loading favorites: \(e)")
 		}
 		
+		//	Note: While it’s desirable to do the culling work on the
+		//			receive queue, but I’m not sure how risky that
+		//			is, given that self.favorites is modified on
+		//			the main queue. The amount of actual work here
+		//			is so small, that we’ll just do it on the main
+		//			queue…
+		
 		self.allTitles
 			.receive(on: DispatchQueue.main)
-			.map
-			{ inItems in
-				return inItems.subtracting(self.favorites)
-			}
+			.map { $0.subtracting(self.favorites) }		//	Remove any persisted favorites
 			.assign(to: &self.$availableTitles)
 	}
 	
@@ -69,7 +73,6 @@ Store
 			throw MarshalError.typeMismatch(expected: MarshaledObject.self, actual: type(of: json))
 		}
 		
-		//	Remove any
 		let items = try OrderedSet<ITMSItem>(obj.value(for: "feed.entry", inContext: .itms) as [ITMSItem])
 		self.allTitles.send(items)
 	}
