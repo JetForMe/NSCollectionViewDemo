@@ -3,6 +3,8 @@ a reorderable favorites collection.
 
 ## Issues
 
+* You can command-delete the Favorites selection, but you can't drag them out of the row (as you might with the Dock).
+* The dynamic resizing is a bit wonky sometimes. Resize the window or drag the split view bar to fix it.
 * It’s unclear why, but the drop location highlighting isn’t working properly.
 * The use of Combine, coupled with Apple’s rather clumsy design of `NSCollectionViewDiffableDataSource`,
 	results in a redundant update to the data source. This update ends up being a no-op, so I’ve

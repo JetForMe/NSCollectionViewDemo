@@ -181,7 +181,7 @@ CA
                         <splitViewItem id="YUM-tv-G2q"/>
                         <splitViewItem id="3UI-DU-lhv"/>
                     </splitViewItems>
-                    <splitView key="splitView" dividerStyle="thin" id="UIz-cj-EQh">
+                    <splitView key="splitView" dividerStyle="paneSplitter" id="UIz-cj-EQh">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
