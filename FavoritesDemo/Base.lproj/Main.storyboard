@@ -695,7 +695,7 @@
                         </connections>
                     </window>
                     <connections>
-                        <segue destination="cig-OD-duC" kind="relationship" relationship="window.shadowedContentViewController" id="5eM-ja-yrb"/>
+                        <segue destination="kXN-TD-CUZ" kind="relationship" relationship="window.shadowedContentViewController" id="bZP-Zh-E0K"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -703,29 +703,29 @@
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
         <!--Favorites Picker View Controller-->
-        <scene sceneID="gYp-Ud-8eE">
+        <scene sceneID="VqD-lL-TDE">
             <objects>
-                <splitViewController id="cig-OD-duC" customClass="FavoritesPickerViewController" customModule="FavoritesDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <splitViewController id="kXN-TD-CUZ" customClass="FavoritesPickerViewController" customModule="FavoritesDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <splitViewItems>
-                        <splitViewItem id="cAa-ca-wGD"/>
-                        <splitViewItem id="G2z-wR-wnf"/>
+                        <splitViewItem id="YUM-tv-G2q"/>
+                        <splitViewItem id="3UI-DU-lhv"/>
                     </splitViewItems>
-                    <splitView key="splitView" dividerStyle="paneSplitter" id="vTK-YA-i6W">
-                        <rect key="frame" x="0.0" y="0.0" width="815" height="399"/>
+                    <splitView key="splitView" dividerStyle="thin" id="UIz-cj-EQh">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
-                            <outlet property="delegate" destination="cig-OD-duC" id="bg8-K9-Q79"/>
+                            <outlet property="delegate" destination="kXN-TD-CUZ" id="3uI-Yy-JM3"/>
                         </connections>
                     </splitView>
                     <connections>
-                        <outlet property="splitView" destination="vTK-YA-i6W" id="hzN-9r-MN7"/>
-                        <segue destination="qgQ-T2-IYd" kind="relationship" relationship="splitItems" id="823-jr-Mje"/>
-                        <segue destination="qgQ-T2-IYd" kind="relationship" relationship="splitItems" id="dgS-fs-qh9"/>
+                        <outlet property="splitView" destination="UIz-cj-EQh" id="vIq-vy-rIg"/>
+                        <segue destination="qgQ-T2-IYd" kind="relationship" relationship="splitItems" destinationCreationSelector="favorites" id="PCK-YD-fVG"/>
+                        <segue destination="cZI-PD-Wae" kind="relationship" relationship="splitItems" destinationCreationSelector="topItems" id="FGV-7L-jby"/>
                     </connections>
                 </splitViewController>
-                <customObject id="8dt-6V-Tkb" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="fTh-G4-1mY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="82.5" y="840.5"/>
+            <point key="canvasLocation" x="-307" y="821"/>
         </scene>
         <!--Item Collection Controller-->
         <scene sceneID="Anf-U9-Vm4">
@@ -743,7 +743,7 @@
                                     <subviews>
                                         <collectionView selectable="YES" allowsMultipleSelection="YES" id="hcz-2E-DuK">
                                             <rect key="frame" x="0.0" y="0.0" width="448" height="158"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                            <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" scrollDirection="horizontal" id="rlX-bu-Z1Q">
                                                 <size key="itemSize" width="50" height="50"/>
                                                 <edgeInsets key="sectionInset" left="10" right="10" top="10" bottom="10"/>
@@ -782,10 +782,64 @@
                 </viewController>
                 <customObject id="xEv-we-OzB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="924" y="643"/>
+            <point key="canvasLocation" x="584" y="697"/>
+        </scene>
+        <!--Item Collection Controller-->
+        <scene sceneID="0pG-EH-CtB">
+            <objects>
+                <viewController id="cZI-PD-Wae" customClass="ItemCollectionController" customModule="FavoritesDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="w28-dW-Fr3">
+                        <rect key="frame" x="0.0" y="0.0" width="668" height="231"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="VLl-yV-cyD">
+                                <rect key="frame" x="0.0" y="0.0" width="668" height="231"/>
+                                <clipView key="contentView" id="hSJ-N0-xET">
+                                    <rect key="frame" x="1" y="1" width="666" height="229"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <collectionView selectable="YES" allowsMultipleSelection="YES" id="Ngq-5c-59g">
+                                            <rect key="frame" x="0.0" y="0.0" width="448" height="269"/>
+                                            <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" scrollDirection="horizontal" id="Tbr-AA-Mkb">
+                                                <size key="itemSize" width="50" height="50"/>
+                                                <edgeInsets key="sectionInset" left="10" right="10" top="10" bottom="10"/>
+                                            </collectionViewFlowLayout>
+                                            <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="cZI-PD-Wae" id="Rl0-pE-16v"/>
+                                            </connections>
+                                        </collectionView>
+                                    </subviews>
+                                </clipView>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="urj-fy-rx2"/>
+                                </constraints>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="1Yl-Q7-Toq">
+                                    <rect key="frame" x="1" y="144" width="233" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="rVP-gh-VqP">
+                                    <rect key="frame" x="-100" y="-100" width="15" height="118"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="VLl-yV-cyD" firstAttribute="leading" secondItem="w28-dW-Fr3" secondAttribute="leading" id="C2g-ri-D8X"/>
+                            <constraint firstAttribute="bottom" secondItem="VLl-yV-cyD" secondAttribute="bottom" id="HHG-EU-c76"/>
+                            <constraint firstItem="VLl-yV-cyD" firstAttribute="top" secondItem="w28-dW-Fr3" secondAttribute="top" id="Ibb-w7-6G0"/>
+                            <constraint firstAttribute="trailing" secondItem="VLl-yV-cyD" secondAttribute="trailing" id="azV-jJ-ySN"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="Ngq-5c-59g" id="wKd-zb-trv"/>
+                        <outlet property="view" destination="w28-dW-Fr3" id="YSd-96-9Q9"/>
+                    </connections>
+                </viewController>
+                <customObject id="96b-xG-zgS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="693" y="1029.5"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="823-jr-Mje"/>
-    </inferredMetricsTieBreakers>
 </document>
