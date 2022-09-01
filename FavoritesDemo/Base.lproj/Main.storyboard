@@ -280,7 +280,7 @@
                                     <subviews>
                                         <collectionView selectable="YES" allowsMultipleSelection="YES" id="Ngq-5c-59g">
                                             <rect key="frame" x="0.0" y="0.0" width="666" height="195"/>
-                                            <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="Tbr-AA-Mkb">
                                                 <size key="itemSize" width="200" height="300"/>
                                                 <edgeInsets key="sectionInset" left="10" right="10" top="10" bottom="10"/>
