@@ -58,10 +58,6 @@ FavoritesPickerViewController : NSSplitViewController
 		inVC.canDrop = true
 		inVC.canReorder = true
 		inVC.loadItems(from: Store.shared.favorites)
-		inVC.setDropHandler
-		{ inItems in
-			Store.shared.set(favorites: inItems)
-		}
 	}
 	
 	func

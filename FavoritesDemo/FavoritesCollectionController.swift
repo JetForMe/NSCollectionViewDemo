@@ -8,13 +8,56 @@
 import AppKit
 
 
+import OrderedCollections
 
 
 
 class
 FavoritesCollectionController : ItemCollectionController
 {
+	override
+	func
+	viewDidLoad()
+	{
+		super.viewDidLoad()
+		self.collectionView.registerForDraggedTypes([.ITMSItemPBType])
+		self.view.needsLayout = true
+	}
+	
+	/**
+		In order to dynamically resize the item cells, the layout must be
+		invalidated whenever the parent layout changes.
+		
+		TODO: The first time the window presents,
+	*/
+	
+	override
+	func
+	viewWillLayout()
+	{
+		super.viewWillLayout()
+		self.collectionView.collectionViewLayout?.invalidateLayout()
+	}
+	
+	override
+	func
+	update(items inItems: OrderedSet<ITMSItem>)
+	{
+		Store.shared.set(favorites: inItems)
+	}
+	
+	@IBAction
+	func
+	delete(_ inSender: Any)
+	{
+		var snapshot = self.dataSource.snapshot()
+		let selected = self.collectionView.selectionIndexPaths.compactMap { self.dataSource.itemIdentifier(for: $0) }
+		snapshot.deleteItems(selected)
+		self.dataSource.apply(snapshot, animatingDifferences: true)
+		update(items: OrderedSet<ITMSItem>(self.dataSource.snapshot().itemIdentifiers))
+	}
 }
+
 
 //	MARK: - • Layout -
 

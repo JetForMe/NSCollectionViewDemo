@@ -45,15 +45,6 @@ ItemCollectionController : NSViewController
 				}
 	}
 	
-	typealias	DropHandler			=	(_ items: OrderedSet<ITMSItem>) -> ()
-	
-	func
-	setDropHandler(_ inDH: @escaping DropHandler)
-	{
-		self.dropHandler = inDH
-		self.collectionView.registerForDraggedTypes([.ITMSItemPBType])
-	}
-	
 	override
 	func
 	viewDidLoad()
@@ -87,24 +78,16 @@ ItemCollectionController : NSViewController
 	}
 	
 	/**
-		In order to dynamically resize the item cells, the layout must be
-		invalidated whenever the parent layout changes.
-		
-		TODO: The first time the window presents,
+		Subclasses should override to handle changes in the contained items.
 	*/
 	
-	override
 	func
-	viewWillLayout()
+	update(items inItems: OrderedSet<ITMSItem>)
 	{
-		super.viewWillLayout()
-		self.collectionView.collectionViewLayout?.invalidateLayout()
 	}
 	
-	private var sub							:	AnyCancellable?
-	private var dataSource					:	NSCollectionViewDiffableDataSource<Int, ITMSItem>!
-	
-	private var dropHandler					:	DropHandler?
+	var sub							:	AnyCancellable?
+	var dataSource					:	NSCollectionViewDiffableDataSource<Int, ITMSItem>!
 	
 	@IBOutlet weak var collectionView		:	NSCollectionView!
 }
@@ -247,7 +230,7 @@ ItemCollectionController : NSCollectionViewDelegate
 		
 		//	Let the top level controller know what happened…
 		
-		self.dropHandler?(OrderedSet<ITMSItem>(self.dataSource.snapshot().itemIdentifiers))
+		update(items: OrderedSet<ITMSItem>(self.dataSource.snapshot().itemIdentifiers))
 		
 		return true
 	}

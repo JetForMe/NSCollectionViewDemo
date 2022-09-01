@@ -84,10 +84,22 @@ Store
 	func
 	set(favorites inItems: OrderedSet<ITMSItem>)
 	{
-		//	Remove from available…
+		//	See if any are deleted…
 		
-		let available = self.availableTitles.subtracting(inItems)
-		self.availableTitles = available
+		let removed = self.favorites.subtracting(inItems)
+		
+		//	Remove from available, add in removed…
+		
+		let available = self.availableTitles.subtracting(inItems).union(removed)
+		
+		//	Use allTitles ordering and make new available list…
+		//	NOTE: This presents a race condition, in that allTitles is updated on another
+		//			thread. In this little app, it's only ever updated once at launch, and
+		//			so this won't present as a bug, but if it’s ever refreshed while the
+		//			user is modifying their favorites, this will lead to unpredictable
+		//			results. It’s too much work to fix it now.
+		
+		self.availableTitles = .init(self.allTitles.value.filter { available.contains($0) })
 		
 		//	Update our favorites…
 		
