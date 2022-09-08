@@ -29,7 +29,7 @@ ItemCollectionController : NSViewController
 	}
 	
 	func
-	set(collection inCollection: any Publisher<OrderedSet<ITMSItem>, Never>)
+	set(collection inCollection: Published<OrderedSet<ITMSItem>>.Publisher)
 	{
 		self.sub =
 			inCollection
